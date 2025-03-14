@@ -17,6 +17,7 @@ def create_friend():
     try:
         data = request.get_json()
         
+        # validaciones
         required_field = ["name", "role", "description", "gender"]
         for field in required_field:
             if not field in data:
@@ -61,3 +62,25 @@ def delete_friend(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)})
+
+# UPDATE A Friend
+@app.route('/api/friends/<int:id>', methods=["PATCH"])
+def update_friend(id):
+    try:
+        friend = Friend.query.get(id)
+        if friend is None:
+            return jsonify({"message": "Friend not found"}), 400
+        
+        #traer los datos de la solicitud
+        data = request.json
+        
+        friend.name = data.get("name", friend.name)
+        friend.role = data.get("role", friend.role)
+        friend.description = data.get("description", friend.description)
+        friend.gender = data.get("gender", friend.gender)
+        
+        db.session.commit()
+        return jsonify(friend.to_json()), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
