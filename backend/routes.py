@@ -15,9 +15,10 @@ def get_friend():
 @app.route('/api/friends', methods=["POST"])
 def create_friend():
     try:
+        #se recibe un json con los datos
         data = request.get_json()
         
-        # validaciones
+        # validaciones con campos requeridos
         required_field = ["name", "role", "description", "gender"]
         for field in required_field:
             if not field in data:
@@ -28,7 +29,7 @@ def create_friend():
         description = data.get("description")
         gender = data.get("gender")
         
-        #Fetch avatar imagen basado en el genero
+        #Fetch para crear un avatar imagen basado en el genero
         if gender == "male":
             img_url = f"https://avatar.iran.liara.run/public/boy?username={name}"
         elif gender == "female":
@@ -47,7 +48,7 @@ def create_friend():
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
     
-#Delete a friend
+#Delete a friend by id
 @app.route('/api/friends/<int:id>', methods=["DELETE"])
 def delete_friend(id):
     try:
