@@ -12,12 +12,12 @@ const UserGrid = ({ users, setUsers }) => {
         const getUsers = async () => {
             try {
                 const res = await fetch("http://127.0.0.1:5000/api/friends");
-                const data = res.json();
+                const data = await res.json();
 
                 if (!res.ok) {
                     throw new Error(data.error);
                 }
-                setUsers[data];
+                setUsers(data);
 
             } catch (error) {
                 console.log(error);
@@ -29,6 +29,7 @@ const UserGrid = ({ users, setUsers }) => {
         getUsers();
 
     }, [setUsers])
+
     return (
 
         <>
@@ -37,10 +38,10 @@ const UserGrid = ({ users, setUsers }) => {
                 md: "repeat(2, 1fr)",
                 lg: "repeat(3, 1fr)"
             }}
-                gap={3}
+                gap={4}
             >
                 {users.map((user) => (
-                    <UserCard key={user.id} user={user} />
+                    <UserCard key={user.id} user={user}  />
                 ))}
             </Grid>
 

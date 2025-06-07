@@ -1,8 +1,9 @@
 import { Button, Container, Stack, Text } from "@chakra-ui/react"
 import Navbar from "./components/Navbar";
 import UserGrid from "./components/UserGrid";
+import { useState } from "react";
 
-
+export const BASE_URL = "http://localhost:5000/api";
 function App() {
   const [users, setUsers] = useState([]);
 
