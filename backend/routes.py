@@ -21,7 +21,7 @@ def create_friend():
         # validaciones con campos requeridos
         required_field = ["name", "role", "description", "gender"]
         for field in required_field:
-            if not field in data:
+            if field not in data or not data.get(field):
                 return jsonify({"error": f'missing a field: {field}'}), 400
         
         name = data.get("name")
